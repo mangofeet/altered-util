@@ -37,6 +37,7 @@ class Counter extends HTMLElement {
 	container.style['align-items'] = 'stretch'
 
 	if (this.hasAttribute('flipped')) {
+	  container.style.transform = 'rotate(180deg)'
 	  container.appendChild(this.containers.water)
 	  container.appendChild(this.containers.mountain)
 	  container.appendChild(this.containers.forest)

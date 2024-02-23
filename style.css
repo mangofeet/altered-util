@@ -24,10 +24,6 @@
   width: 20%;
 }
 
-.counter.counter-top {
-  transform: rotate(180deg);
-}
-
 .adventure-cards {
   display: flex;
 }
