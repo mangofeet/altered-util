@@ -91,6 +91,9 @@ function startGame() {
 
 function getAdventureCard(data) {
   const card = document.createElement('game-card')
+  card.style.display = 'flex'
+  card.style.alignItems = 'center'
+
   card.setAttribute('src', data.src)
   if (data.srcBack) {
 	card.setAttribute('src-back', data.srcBack)

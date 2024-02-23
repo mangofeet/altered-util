@@ -44,7 +44,10 @@ class Card extends HTMLElement {
 	this.img.style.transform = `rotate(${this.rotation}deg)`
 	// swap these due to the transform
 	this.img.style['max-width'] = '100%'
+	this.img.style.width = '100%'
 	this.img.style.height = 'auto'
+	this.img.style.maxHeight = '500px'
+	this.img.style.transition = `max-height 300ms linear`
 
 	this.img.onclick = (event) => {
 	  const newFacing = this.facing == "up" ? "down" : "up"
@@ -62,13 +65,21 @@ class Card extends HTMLElement {
 		throw new Error(`invalid facing ${this.facing}`)
 	  }
 	  
-	  this.img.setAttribute('src', '')  
-	  this.facing = newValue
-	  if (this.facing == "up") {
-		this.img.setAttribute('src', this.src)  
-	  } else if (this.facing == "down") {
-		this.img.setAttribute('src', this.srcBack)  
-	  }
+	  this.img.style.maxHeight = 0
+	  
+	  setTimeout(() => {
+		this.img.setAttribute('src', '')  
+		this.facing = newValue
+		if (this.facing == "up") {
+		  this.img.setAttribute('src', this.src)  
+		} else if (this.facing == "down") {
+		  this.img.setAttribute('src', this.srcBack)  
+		}
+		this.img.style.maxHeight = '500px'
+		
+	  }, 300)
+	  
+	  
 	  break
 	  
 	case "src":
