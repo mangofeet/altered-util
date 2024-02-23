@@ -60,9 +60,9 @@ class Counter extends HTMLElement {
   makeIncrementFunc(key) {
 	const self = this
 	return (evt) => {
-	  const thisHeight = evt.currentTarget.clientHeight
-	  const offset = evt.clientY - evt.currentTarget.offsetTop
-	  if (offset > thisHeight/2) {
+	  const thisWidth = evt.currentTarget.clientWidth
+	  const offset = evt.offsetX
+	  if (offset < thisWidth/2) {
 		self.counts[key] -= 1
 	  } else {
 		self.counts[key] += 1
