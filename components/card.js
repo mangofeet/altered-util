@@ -62,6 +62,7 @@ class Card extends HTMLElement {
 		throw new Error(`invalid facing ${this.facing}`)
 	  }
 	  
+	  this.img.setAttribute('src', '')  
 	  this.facing = newValue
 	  if (this.facing == "up") {
 		this.img.setAttribute('src', this.src)  
