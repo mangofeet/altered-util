@@ -60,8 +60,9 @@ class Counter extends HTMLElement {
   makeIncrementFunc(key) {
 	const self = this
 	return (evt) => {
-	  const thisHeight = self.containers[key].clientHeight
-	  if (evt.offsetY > thisHeight/2) {
+	  const thisHeight = evt.currentTarget.clientHeight
+	  const offset = evt.clientY - evt.currentTarget.offsetTop
+	  if (offset > thisHeight/2) {
 		self.counts[key] -= 1
 	  } else {
 		self.counts[key] += 1
@@ -91,7 +92,7 @@ function makeContainer(label, color) {
   const container = document.createElement('div')
   container.style.flex = '1'
   container.style.height = '100%'
-  container.style.background = `${color} url("/img/${label}.png") no-repeat 50% 5%`
+  container.style.background = `${color} url("img/${label}.png") no-repeat 50% 5%`
   container.style.backgroundBlendMode = 'overlay'
   container.style.color = '#dcdccc'
   container.style.position = 'relative'
