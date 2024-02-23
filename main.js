@@ -84,7 +84,6 @@ function startGame() {
   const tumult = document.getElementById('tumult')
 
   for (const card of getTumultOrder()) {
-	console.log(card)
 	tumult.appendChild(getAdventureCard(card))
   }
   
