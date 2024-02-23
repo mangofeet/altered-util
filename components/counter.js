@@ -121,7 +121,7 @@ function makeContainer(label, color) {
   plus.style.height = '100%'
   plus.innerHTML = '+'
   plus.style.textAlign = 'center'
-  plus.style.fontSize = '3em'
+  plus.style.fontSize = '2em'
 
   const minus = document.createElement('div')
   minus.style.position = 'absolute'
@@ -134,7 +134,7 @@ function makeContainer(label, color) {
   minus.style['-webkit-backdrop-filter'] = minusBackdropFilter
   minus.innerHTML = '-'
   minus.style.textAlign = 'center'
-  minus.style.fontSize = '3em'
+  minus.style.fontSize = '2em'
 
   const clicker = document.createElement('div')
   clicker.style.position = 'absolute'
