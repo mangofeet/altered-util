@@ -110,7 +110,38 @@ function makeContainer(label, color) {
   blur.style.height = '100%'
   blur.style.backdropFilter = 'blur(1px)'
 
+  const plus = document.createElement('div')
+  plus.style.position = 'absolute'
+  plus.style.top = 0
+  plus.style.left = '50%'
+  plus.style.width = '50%'
+  plus.style.height = '100%'
+  plus.innerHTML = '+'
+  plus.style.textAlign = 'center'
+  plus.style.fontSize = '3em'
+
+  const minus = document.createElement('div')
+  minus.style.position = 'absolute'
+  minus.style.top = 0
+  minus.style.left = 0
+  minus.style.width = '50%'
+  minus.style.height = '100%'
+  minus.style.backdropFilter = 'brightness(85%)'
+  minus.innerHTML = '-'
+  minus.style.textAlign = 'center'
+  minus.style.fontSize = '3em'
+
+  const clicker = document.createElement('div')
+  clicker.style.position = 'absolute'
+  clicker.style.top = 0
+  clicker.style.left = 0
+  clicker.style.width = '100%'
+  clicker.style.height = '100%'
+
   container.appendChild(blur)
+  container.appendChild(plus)
+  container.appendChild(minus)
+  container.appendChild(clicker)
 
   return container
 }
