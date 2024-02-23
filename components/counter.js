@@ -36,15 +36,20 @@ class Counter extends HTMLElement {
 	container.style.height = '100%'
 	container.style['align-items'] = 'stretch'
 
-	container.appendChild(this.containers.forest)
-	container.appendChild(this.containers.mountain)
-	container.appendChild(this.containers.water)
-
+	if (this.hasAttribute('flipped')) {
+	  container.appendChild(this.containers.water)
+	  container.appendChild(this.containers.mountain)
+	  container.appendChild(this.containers.forest)
+	} else {
+	  container.appendChild(this.containers.forest)
+	  container.appendChild(this.containers.mountain)
+	  container.appendChild(this.containers.water)
+	}
 	
 	this.counters.forest = makeCounterValue('forest', this.counts.forest)
 	this.counters.mountain = makeCounterValue('mountain', this.counts.forest)
 	this.counters.water = makeCounterValue('water', this.counts.forest)
-
+	
 	this.containers.forest.appendChild(this.counters.forest)
 	this.containers.mountain.appendChild(this.counters.mountain)
 	this.containers.water.appendChild(this.counters.water)
