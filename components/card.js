@@ -2,12 +2,12 @@
 
 class Card extends HTMLElement {
 
-  static observedAttributes = ['facing']
+  static observedAttributes = ['facing', 'src', 'src-back', 'rotation']
   
   dom
   src
   srcBack = "img/adventure-cards/ADV_CARD_BACK.png"
-  facing = "up"
+  facing = "down"
   rotation = 0
   img
   
@@ -16,9 +16,6 @@ class Card extends HTMLElement {
 
 	this.dom = this.attachShadow({mode:"closed"})
 
-	if (!this.hasAttribute("src")) {
-	  throw new Error("src required on game-card")
-	}
 	this.src = this.getAttribute("src")
 
 	if (this.hasAttribute("src-back")) {
@@ -71,6 +68,28 @@ class Card extends HTMLElement {
 	  } else if (this.facing == "down") {
 		this.img.setAttribute('src', this.srcBack)  
 	  }
+	  break
+	  
+	case "src":
+	  
+	  this.src = newValue
+	  if (this.facing == "up") {
+		this.img.setAttribute('src', this.src)  
+	  }
+	  break
+	  
+	case "src-back":
+	  
+	  this.srcBack = newValue
+	  if (this.facing == "down") {
+		this.img.setAttribute('src', this.srcBack)  
+	  }
+	  break
+	  
+	case "rotation":
+	  
+	  this.rotation = parseInt(newValue)
+	  this.img.style.transform = `rotate(${this.rotation}deg)`
 	  break
 	  
 	default:
