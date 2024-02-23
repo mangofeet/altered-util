@@ -1,0 +1,38 @@
+.container-game {
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: space-between;
+}
+
+.counter {
+  height: 33vh;
+  background-color: gray;
+  display: flex;
+}
+
+.counter game-counter {
+  width: 40%;
+}
+
+.counter game-control {
+  width: 20%;
+}
+
+.counter.counter-top {
+  transform: rotate(180deg);
+}
+
+.adventure-cards {
+  display: flex;
+}
+
+.adventure-cards game-card {
+  width: 20vw;
+  height: 14.28vw;
+}

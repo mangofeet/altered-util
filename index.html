@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>Altered Tools</title>
+
+    <link rel="manifest" href="./manifest.json"
+
+    <link rel="apple-touch-icon" sizes="180x180" href="img/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/icon/favicon-16x16.png">
+    <link rel="manifest" href="img/icon/site.webmanifest">    
+    
+    <link rel="stylesheet" href="./simple.css">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    
+    <div id="setup" class="container-setup">
+      <div class="flex controls">
+        <button onclick="startGame()">Start</button>
+      </div>
+    </div>
+    
+    <footer id="footer">
+      <p>
+        <a href="https://github.com/mangofeet/altered-tools">Source Code</a>
+      </p>
+    </footer>
+    
+    <div id="game" class="container-game">
+      <div class="counter counter-top">
+        <game-counter></game-counter>
+        <game-control></game-control>
+        <game-counter></game-counter>
+      </div>
+      <div class="adventure-cards">
+        <game-card
+          src="img/adventure-cards/ADV_CARD_1.png"
+        ></game-card>
+        <game-card
+          src="img/adventure-cards/ADV_CARD_2.png"
+          facing="down"
+        ></game-card>
+        <game-card
+          src="img/adventure-cards/ADV_CARD_3.png"
+          facing="down"
+        ></game-card>
+        <game-card
+          src="img/adventure-cards/ADV_CARD_4.png"
+          facing="down"
+        ></game-card>
+        <game-card
+          src="img/adventure-cards/ADV_CARD_5.png"
+          src-back="img/adventure-cards/ADV_CARD_BACK_2.jpg"
+        ></game-card>
+      </div>
+      <div class="counter">
+        <game-counter></game-counter>
+        <game-control></game-control>
+        <game-counter></game-counter>
+      </div>
+    </div>
+    
+    
+    <script src="./components/card.js"></script>
+    <script src="./components/counter.js"></script>
+    <script src="./main.js"></script>
+
+  </body>
+</html>
