@@ -108,7 +108,9 @@ function makeContainer(label, color) {
   blur.style.left = 0
   blur.style.width = '100%'
   blur.style.height = '100%'
-  blur.style.backdropFilter = 'blur(1px)'
+  const blurBackdropFilter = 'blur(1px)'
+  blur.style.backdropFilter = blurBackdropFilter
+  blur.style['-webkit-backdrop-filter'] = blurBackdropFilter
 
   const plus = document.createElement('div')
   plus.style.position = 'absolute'
@@ -126,7 +128,9 @@ function makeContainer(label, color) {
   minus.style.left = 0
   minus.style.width = '50%'
   minus.style.height = '100%'
-  minus.style.backdropFilter = 'brightness(85%)'
+  const minusBackdropFilter = 'brightness(85%)'
+  minus.style.backdropFilter = minusBackdropFilter
+  minus.style['-webkit-backdrop-filter'] = minusBackdropFilter
   minus.innerHTML = '-'
   minus.style.textAlign = 'center'
   minus.style.fontSize = '3em'
