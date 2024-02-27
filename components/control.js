@@ -15,11 +15,11 @@ class Control extends HTMLElement {
 	container.style.height = '100%'
 	container.style['align-items'] = 'stretch'
 
-	if (this.hasAttribute('flipped')) {
+	const isFlipped = this.hasAttribute('flipped')
+	if (isFlipped) {
 	  container.style.transform = 'rotate(180deg)'
 	}
 
-	
 	const btnReset = this.makeButton("Reset Counters", "reset")
 	container.appendChild(btnReset)
 	
@@ -31,10 +31,15 @@ class Control extends HTMLElement {
 	containerAdvance.style['align-items'] = 'stretch'
 	
 	const btnAdvanceHero = this.makeButton("H+", "advancehero")
-	containerAdvance.appendChild(btnAdvanceHero)
-	
 	const btnAdvanceCompanion = this.makeButton("C+", "advancecompanion")
-	containerAdvance.appendChild(btnAdvanceCompanion)
+
+	if (isFlipped) {
+	  containerAdvance.appendChild(btnAdvanceCompanion)
+	  containerAdvance.appendChild(btnAdvanceHero)
+	} else {
+	  containerAdvance.appendChild(btnAdvanceHero)
+	  containerAdvance.appendChild(btnAdvanceCompanion)
+	}
 	
 	const containerBackup = document.createElement('div')
 	containerBackup.style.display = 'flex'
@@ -44,10 +49,15 @@ class Control extends HTMLElement {
 	containerBackup.style['align-items'] = 'stretch'
 	
 	const btnBackupHero = this.makeButton("H-", "backuphero")
-	containerBackup.appendChild(btnBackupHero)
-	
 	const btnBackupCompanion = this.makeButton("C-", "backupcompanion")
-	containerBackup.appendChild(btnBackupCompanion)
+	
+	if (isFlipped) {
+	  containerBackup.appendChild(btnBackupCompanion)
+	  containerBackup.appendChild(btnBackupHero)
+	} else {
+	  containerBackup.appendChild(btnBackupHero)
+	  containerBackup.appendChild(btnBackupCompanion)
+	}
 	
 	container.appendChild(containerAdvance)
 	container.appendChild(containerBackup)
