@@ -2,7 +2,7 @@
 
 class Counter extends HTMLElement {
 
-  static observedAttributes = ['stat-highlight']
+  static observedAttributes = ['stat-highlight', 'reset']
   
   dom
 
@@ -78,9 +78,23 @@ class Counter extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-	if (name == 'stat-highlight') {
+	switch (name) {
+	case 'stat-highlight':
 	  const stats = newValue.split(',')
 	  this.highlightContainers(stats)
+	  
+	  break
+	case 'reset':
+	  if (newValue == 'true' || newValue == true) {
+		this.counts.forest = 0
+		this.counters.forest.innerHTML = `${this.counts.forest}`
+		this.counts.mountain = 0
+		this.counters.mountain.innerHTML = `${this.counts.mountain}`
+		this.counts.water = 0
+		this.counters.water.innerHTML = `${this.counts.water}`
+		this.setAttribute('reset', false)
+	  }
+	  break
 	}
   }
 
@@ -124,7 +138,7 @@ function unhighlightContainer(node) {
   node.style.color = '#dcdccc'
   for (const child of node.children) {
 	if (child.id == 'top-overlay') {
-	  child.style.backdropFilter = 'brightness(50%)'
+	  child.style.backdropFilter = 'brightness(40%)'
 	}
   }
 }

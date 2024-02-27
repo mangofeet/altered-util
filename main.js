@@ -92,16 +92,30 @@ function startGame() {
   document.getElementById('footer').style.display = "none"
   document.getElementById('game').style.display = "flex"
 
+  const controlP1 = document.getElementById('p1-control')
+  controlP1.addEventListener('reset', () => resetCounters('p1'))
+  controlP1.addEventListener('advancehero', () => advanceHero('p1'))
+  controlP1.addEventListener('advancecompanion', () => advanceCompanion('p1'))
+  controlP1.addEventListener('backuphero', () => backupHero('p1'))
+  controlP1.addEventListener('backupcompanion', () => backupCompanion('p1'))
+
+  const controlP2 = document.getElementById('p2-control')
+  controlP2.addEventListener('reset', () => resetCounters('p2'))
+  controlP2.addEventListener('advancehero', () => advanceHero('p2'))
+  controlP2.addEventListener('advancecompanion', () => advanceCompanion('p2'))
+  controlP2.addEventListener('backuphero', () => backupHero('p2'))
+  controlP2.addEventListener('backupcompanion', () => backupCompanion('p2'))
+
   const tumult = document.getElementById('tumult')
 
   for (const card of getTumultOrder()) {
 	tumult.appendChild(getAdventureCard(card))
   }
 
-  expeditionMarkers[0].hero = createMarker('hero-lyra', 0, 1)
-  expeditionMarkers[0].companion = createMarker('companion-lyra', 7, 1)
-  expeditionMarkers[1].hero = createMarker('hero-muna', 0, 2)
-  expeditionMarkers[1].companion = createMarker('companion-muna', 7, 2)
+  expeditionMarkers[0].hero = createMarker('hero-lyra', 0, 1, 'hero')
+  expeditionMarkers[0].companion = createMarker('companion-lyra', 7, 1, 'companion')
+  expeditionMarkers[1].hero = createMarker('hero-muna', 0, 2, 'hero')
+  expeditionMarkers[1].companion = createMarker('companion-muna', 7, 2, 'companion')
 
   highlightStats()
 }
@@ -115,7 +129,7 @@ function highlightStats() {
 
 }
 
-function highlightStat(data, expedition) {
+function highlightStat(data) {
   const cardIndex = Math.ceil(data.pos/2)
   const tumult = getTumultOrder()
 
@@ -142,9 +156,8 @@ function highlightStat(data, expedition) {
 	}
   }
 
-  const counter = document.getElementById(`p${data.player}-${expedition}`)
+  const counter = document.getElementById(`p${data.player}-${data.expedition}`)
   counter.setAttribute('stat-highlight', stat.join(','))
-
 }
 
 window.addEventListener("deviceorientation", () => {
@@ -164,14 +177,12 @@ function advanceMarker(data) {
 	data.pos++
 	if (data.pos > 7) data.pos = 7
   }
-  
-  
   setMarkerPosition(data.marker, data.pos, data.player)
+  
   highlightStats()
 }
 
 function unadvanceMarker(data) {
-
   if (data.marker.getAttribute('name').includes('companion')) {
 	data.pos++
 	if (data.pos > 7) data.pos = 7
@@ -183,14 +194,14 @@ function unadvanceMarker(data) {
   highlightStats()
 }
 
-function createMarker(name, pos, player) {
+function createMarker(name, pos, player, expedition) {
   const marker = document.createElement('expedition-marker')
   marker.setAttribute('name', name)
   marker.style.transition = 'left 300ms'
   setMarkerPosition(marker, pos, player)
   document.getElementById('tumult').appendChild(marker)
 
-  const data = {marker, pos, player}
+  const data = {marker, pos, player, expedition}
   marker.onclick = () => {
 	advanceMarker(data)
   }
@@ -287,3 +298,66 @@ function getAdventureCard(data) {
   return card
 }
 
+
+function resetCounters(player) {
+  document.getElementById(`${player}-hero`).setAttribute('reset', true)
+  document.getElementById(`${player}-companion`).setAttribute('reset', true)
+}
+
+function advanceHero(player) {
+  console.log('advance hero', player)
+  let data
+
+  switch (player) {
+  case 'p1':
+	data = expeditionMarkers[0].hero
+	break
+  case 'p2':
+	data = expeditionMarkers[1].hero
+	break
+  }
+  advanceMarker(data)
+}
+
+function advanceCompanion(player) {
+  let data
+
+  switch (player) {
+  case 'p1':
+	data = expeditionMarkers[0].companion
+	break
+  case 'p2':
+	data = expeditionMarkers[1].companion
+	break
+  }
+  advanceMarker(data)
+}
+
+function backupHero(player) {
+  console.log('advance hero', player)
+  let data
+
+  switch (player) {
+  case 'p1':
+	data = expeditionMarkers[0].hero
+	break
+  case 'p2':
+	data = expeditionMarkers[1].hero
+	break
+  }
+  unadvanceMarker(data)
+}
+
+function backupCompanion(player) {
+  let data
+
+  switch (player) {
+  case 'p1':
+	data = expeditionMarkers[0].companion
+	break
+  case 'p2':
+	data = expeditionMarkers[1].companion
+	break
+  }
+  unadvanceMarker(data)
+}
