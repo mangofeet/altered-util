@@ -148,10 +148,12 @@ function highlightStat(data, expedition) {
 }
 
 window.addEventListener("deviceorientation", () => {
-  setMarkerPosition(expeditionMarkers[0].hero.marker, expeditionMarkers[0].hero.pos, expeditionMarkers[0].hero.player)
-  setMarkerPosition(expeditionMarkers[1].hero.marker, expeditionMarkers[1].hero.pos, expeditionMarkers[1].hero.player)
-  setMarkerPosition(expeditionMarkers[0].companion.marker, expeditionMarkers[0].companion.pos, expeditionMarkers[0].companion.player)
-  setMarkerPosition(expeditionMarkers[1].companion.marker, expeditionMarkers[1].companion.pos, expeditionMarkers[1].companion.player)
+  setTimeout(() => {
+	if (expeditionMarkers[0].hero) setMarkerPosition(expeditionMarkers[0].hero.marker, expeditionMarkers[0].hero.pos, expeditionMarkers[0].hero.player)
+	if (expeditionMarkers[1].hero)setMarkerPosition(expeditionMarkers[1].hero.marker, expeditionMarkers[1].hero.pos, expeditionMarkers[1].hero.player)
+	if (expeditionMarkers[0].companion) setMarkerPosition(expeditionMarkers[0].companion.marker, expeditionMarkers[0].companion.pos, expeditionMarkers[0].companion.player)
+	if (expeditionMarkers[1].companion) setMarkerPosition(expeditionMarkers[1].companion.marker, expeditionMarkers[1].companion.pos, expeditionMarkers[1].companion.player)
+  }, 100)
 }, true);
 
 function advanceMarker(data) {
@@ -201,9 +203,6 @@ function setMarkerPosition(marker, pos, player) {
   
   const cardIndex = Math.ceil(pos/2)
 
-  console.log(`pos: ${pos}`)
-  console.log(`cardIndex: ${cardIndex}`)
-  
   for (let i = 0; i < cards.length; i++) {
 
 	if (cardIndex != i) {
