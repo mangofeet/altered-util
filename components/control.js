@@ -30,10 +30,10 @@ class Control extends HTMLElement {
 	containerAdvance.style.height = '100%'
 	containerAdvance.style['align-items'] = 'stretch'
 	
-	const btnAdvanceHero = this.makeButton("Hero+", "advancehero")
+	const btnAdvanceHero = this.makeButton("H+", "advancehero")
 	containerAdvance.appendChild(btnAdvanceHero)
 	
-	const btnAdvanceCompanion = this.makeButton("Companion+", "advancecompanion")
+	const btnAdvanceCompanion = this.makeButton("C+", "advancecompanion")
 	containerAdvance.appendChild(btnAdvanceCompanion)
 	
 	const containerBackup = document.createElement('div')
@@ -43,10 +43,10 @@ class Control extends HTMLElement {
 	containerBackup.style.height = '100%'
 	containerBackup.style['align-items'] = 'stretch'
 	
-	const btnBackupHero = this.makeButton("Hero-", "backuphero")
+	const btnBackupHero = this.makeButton("H-", "backuphero")
 	containerBackup.appendChild(btnBackupHero)
 	
-	const btnBackupCompanion = this.makeButton("Companion-", "backupcompanion")
+	const btnBackupCompanion = this.makeButton("C-", "backupcompanion")
 	containerBackup.appendChild(btnBackupCompanion)
 	
 	container.appendChild(containerAdvance)
