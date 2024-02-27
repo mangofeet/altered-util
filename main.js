@@ -281,4 +281,3 @@ function getAdventureCard(data) {
   return card
 }
 
-startGame()
