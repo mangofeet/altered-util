@@ -42,7 +42,6 @@ class Card extends HTMLElement {
 	}
 	
 	this.img.style.transform = `rotate(${this.rotation}deg)`
-	// swap these due to the transform
 	this.img.style['max-width'] = '100%'
 	this.img.style.width = '100%'
 	this.img.style.height = 'auto'

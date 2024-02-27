@@ -25,6 +25,7 @@
 }
 
 .adventure-cards {
+  position: relative;
   display: flex;
 }
 

@@ -2,6 +2,8 @@
 
 class Counter extends HTMLElement {
 
+  static observedAttributes = ['stat-highlight']
+  
   dom
 
   counts = {
@@ -77,6 +79,37 @@ class Counter extends HTMLElement {
 	  self.counters[key].innerHTML = `${this.counts[key]}`
 	}
   }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+	if (name == 'stat-highlight') {
+	  const stats = newValue.split(',')
+	  this.highlightContainers(stats)
+	}
+  }
+
+  unhighlightContainers() {
+	this.containers.forest.style.border = '3px solid grey'
+	this.containers.mountain.style.border = '3px solid grey'
+	this.containers.water.style.border = '3px solid grey'
+  }
+
+  highlightContainers(stats) {
+	this.unhighlightContainers()
+	for (const stat of stats) {
+	  switch (stat) {
+	  case 'f':
+		this.containers.forest.style.border = '3px solid gold'
+		break
+	  case 'm':
+		this.containers.mountain.style.border = '3px solid gold'
+		break
+	  case 'w':
+		this.containers.water.style.border = '3px solid gold'
+		break
+	  }
+	}
+  }
+
 }
 
 function makeCounterValue(label, value) {

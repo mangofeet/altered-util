@@ -33,23 +33,24 @@
     
     <div id="game" class="container-game">
       <div class="counter">
-        <game-counter flipped></game-counter>
+        <game-counter id="p2-hero" flipped></game-counter>
         <game-control></game-control>
-        <game-counter flipped></game-counter>
+        <game-counter id="p2-companion" flipped></game-counter>
       </div>
-      <div id="tumult" class="adventure-cards">
-
-      </div>
+      
+      <div id="tumult" class="adventure-cards"></div>
+      
       <div class="counter">
-        <game-counter></game-counter>
+        <game-counter id="p1-hero"></game-counter>
         <game-control></game-control>
-        <game-counter></game-counter>
+        <game-counter id="p1-companion"></game-counter>
       </div>
     </div>
     
     
     <script src="./components/card.js"></script>
     <script src="./components/counter.js"></script>
+    <script src="./components/expedition-marker.js"></script>
     <script src="./main.js"></script>
 
   </body>
