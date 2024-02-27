@@ -29,9 +29,13 @@ class Counter extends HTMLElement {
 
 	this.dom = this.attachShadow({mode:"closed"})
 
-	this.containers.forest = makeContainer('forest', '#94ad5a')
-	this.containers.mountain = makeContainer('mountain', '#ad7b52')
-	this.containers.water = makeContainer('water', '#5a73a5')
+	this.counters.forest = makeCounterValue('forest', this.counts.forest)
+	this.counters.mountain = makeCounterValue('mountain', this.counts.forest)
+	this.counters.water = makeCounterValue('water', this.counts.forest)
+	
+	this.containers.forest = makeContainer('forest', '#94ad5a', this.counters.forest)
+	this.containers.mountain = makeContainer('mountain', '#ad7b52', this.counters.mountain)
+	this.containers.water = makeContainer('water', '#5a73a5', this.counters.water)
 
 	const container = document.createElement('div')
 	container.style.display = 'flex'
@@ -49,14 +53,7 @@ class Counter extends HTMLElement {
 	  container.appendChild(this.containers.water)
 	}
 	
-	this.counters.forest = makeCounterValue('forest', this.counts.forest)
-	this.counters.mountain = makeCounterValue('mountain', this.counts.forest)
-	this.counters.water = makeCounterValue('water', this.counts.forest)
 	
-	this.containers.forest.appendChild(this.counters.forest)
-	this.containers.mountain.appendChild(this.counters.mountain)
-	this.containers.water.appendChild(this.counters.water)
-
 	this.containers.forest.onclick = this.makeIncrementFunc('forest')
 	this.containers.mountain.onclick = this.makeIncrementFunc('mountain')
 	this.containers.water.onclick = this.makeIncrementFunc('water')
@@ -88,9 +85,9 @@ class Counter extends HTMLElement {
   }
 
   unhighlightContainers() {
-	this.containers.forest.style.border = '3px solid grey'
-	this.containers.mountain.style.border = '3px solid grey'
-	this.containers.water.style.border = '3px solid grey'
+	unhighlightContainer(this.containers.forest)
+	unhighlightContainer(this.containers.mountain)
+	unhighlightContainer(this.containers.water)
   }
 
   highlightContainers(stats) {
@@ -98,13 +95,13 @@ class Counter extends HTMLElement {
 	for (const stat of stats) {
 	  switch (stat) {
 	  case 'f':
-		this.containers.forest.style.border = '3px solid gold'
+		highlightContainer(this.containers.forest)
 		break
 	  case 'm':
-		this.containers.mountain.style.border = '3px solid gold'
+		highlightContainer(this.containers.mountain)
 		break
 	  case 'w':
-		this.containers.water.style.border = '3px solid gold'
+		highlightContainer(this.containers.water)
 		break
 	  }
 	}
@@ -112,9 +109,28 @@ class Counter extends HTMLElement {
 
 }
 
+function highlightContainer(node) {
+  node.style.border = '3px solid gold'
+  node.style.color = '#dcdccc'
+  for (const child of node.children) {
+	if (child.id == 'top-overlay') {
+	  child.style.backdropFilter = 'brightness(100%)'
+	}
+  }
+}
+
+function unhighlightContainer(node) {
+  node.style.border = '3px solid grey'
+  node.style.color = '#dcdccc'
+  for (const child of node.children) {
+	if (child.id == 'top-overlay') {
+	  child.style.backdropFilter = 'brightness(50%)'
+	}
+  }
+}
+
 function makeCounterValue(label, value) {
   const val = document.createElement('span')
-  val.style.color = '#dcdccc'
   val.innerHTML = `${value}`
   val.style.position = 'absolute'
   val.style.width = '100%'
@@ -127,7 +143,7 @@ function makeCounterValue(label, value) {
   return val
 }
 
-function makeContainer(label, color) {
+function makeContainer(label, color, counter) {
   const container = document.createElement('div')
   container.style.flex = '1'
   container.style.height = '100%'
@@ -175,10 +191,12 @@ function makeContainer(label, color) {
   clicker.style.left = 0
   clicker.style.width = '100%'
   clicker.style.height = '100%'
+  clicker.id = 'top-overlay'
 
   container.appendChild(blur)
   container.appendChild(plus)
   container.appendChild(minus)
+  container.appendChild(counter)
   container.appendChild(clicker)
 
   return container
