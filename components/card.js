@@ -48,11 +48,6 @@ class Card extends HTMLElement {
 	this.img.style.maxHeight = '500px'
 	this.img.style.transition = `max-height 300ms linear`
 
-	this.img.onclick = (event) => {
-	  const newFacing = this.facing == "up" ? "down" : "up"
-	  this.setAttribute('facing', newFacing)
-	}
-
 	this.dom.appendChild(this.img)
   }
 
