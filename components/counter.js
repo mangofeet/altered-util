@@ -138,7 +138,9 @@ function unhighlightContainer(node) {
   node.style.color = '#dcdccc'
   for (const child of node.children) {
 	if (child.id == 'top-overlay') {
-	  child.style.backdropFilter = 'brightness(40%)'
+	  const filter = 'brightness(40%)'
+	  child.style.backdropFilter = filter
+	  child.style['-webkit-backdrop-filter'] = filter
 	}
   }
 }
