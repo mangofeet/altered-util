@@ -57,8 +57,14 @@ class Control extends HTMLElement {
   }
 
   makeButton(label, event) {
-	const btn = document.createElement('button')
-	btn.innerHTML = label
+	const btn = document.createElement('div')
+	btn.style.border = '1px solid black'
+	btn.style.textAlign = 'center'
+	btn.style.display = 'flex'
+	btn.style.flexDirection = 'column'
+	btn.style.justifyContent = 'center'
+	btn.style.flex = '1'
+	btn.style.cursor = 'pointer'
 	btn.onclick = () => {
 	  console.log('dispatching', event)
 	  this.dispatchEvent(new CustomEvent(event, {
@@ -67,8 +73,11 @@ class Control extends HTMLElement {
 		composed: true,
 	  }))
 	}
-	btn.style.flex = '1'
 
+	const span = document.createElement('span')
+	span.innerHTML = label
+	btn.appendChild(span)
+	
 	return btn
 	
   }  
