@@ -147,6 +147,13 @@ function highlightStat(data, expedition) {
 
 }
 
+window.addEventListener("deviceorientation", () => {
+  setMarkerPosition(expeditionMarkers[0].hero.marker, expeditionMarkers[0].hero.pos, expeditionMarkers[0].hero.player)
+  setMarkerPosition(expeditionMarkers[1].hero.marker, expeditionMarkers[1].hero.pos, expeditionMarkers[1].hero.player)
+  setMarkerPosition(expeditionMarkers[0].companion.marker, expeditionMarkers[0].companion.pos, expeditionMarkers[0].companion.player)
+  setMarkerPosition(expeditionMarkers[1].companion.marker, expeditionMarkers[1].companion.pos, expeditionMarkers[1].companion.player)
+}, true);
+
 function advanceMarker(data) {
   if (data.marker.getAttribute('name').includes('companion')) {
 	data.pos--
