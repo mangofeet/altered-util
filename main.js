@@ -160,14 +160,16 @@ function highlightStat(data) {
   counter.setAttribute('stat-highlight', stat.join(','))
 }
 
-window.addEventListener("deviceorientation", () => {
+function handleOrientationChange() {
   setTimeout(() => {
 	if (expeditionMarkers[0].hero) setMarkerPosition(expeditionMarkers[0].hero.marker, expeditionMarkers[0].hero.pos, expeditionMarkers[0].hero.player)
 	if (expeditionMarkers[1].hero)setMarkerPosition(expeditionMarkers[1].hero.marker, expeditionMarkers[1].hero.pos, expeditionMarkers[1].hero.player)
 	if (expeditionMarkers[0].companion) setMarkerPosition(expeditionMarkers[0].companion.marker, expeditionMarkers[0].companion.pos, expeditionMarkers[0].companion.player)
 	if (expeditionMarkers[1].companion) setMarkerPosition(expeditionMarkers[1].companion.marker, expeditionMarkers[1].companion.pos, expeditionMarkers[1].companion.player)
   }, 100)
-}, true);
+}
+
+screen.orientation.addEventListener("change", handleOrientationChange, true);
 
 function advanceMarker(data) {
   if (data.marker.getAttribute('name').includes('companion')) {
