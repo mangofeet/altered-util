@@ -118,7 +118,7 @@ const registerServiceWorker = async () => {
   }
 }
 
-// registerServiceWorker()
+registerServiceWorker()
 
 function startGame() {
   document.getElementById('setup').style.display = "none"
