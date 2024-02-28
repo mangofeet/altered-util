@@ -74,6 +74,13 @@ class Counter extends HTMLElement {
 	  }
 	  if (self.counts[key] < 0) self.counts[key] = 0
 	  self.counters[key].innerHTML = `${this.counts[key]}`
+	  self.dispatchEvent(new CustomEvent("change", {
+		detail: {key, value: self.counts[key], count: [self.counts.forest, self.counts.mountain, self.counts.water]},
+		bubbles: true,
+		cancelable: false,
+		composed: true,
+	  }))
+
 	}
   }
 
@@ -93,6 +100,13 @@ class Counter extends HTMLElement {
 		this.counts.water = 0
 		this.counters.water.innerHTML = `${this.counts.water}`
 		this.setAttribute('reset', false)
+		this.dispatchEvent(new CustomEvent("change", {
+		  detail: {count: [0, 0, 0]},
+		  bubbles: true,
+		  cancelable: false,
+		  composed: true,
+		}))
+
 	  }
 	  break
 	}

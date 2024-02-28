@@ -12,10 +12,43 @@ const tumultCards = [
   },
 ]
 
-const expeditionMarkers = [
-  {hero: null, companion: null},
-  {hero: null, companion: null},
-]
+const expeditionMarkers = {
+  p1: {hero: null, companion: null},
+  p2: {hero: null, companion: null},
+}
+
+const currentStats = {
+  p1: {
+	target: {
+	  hero: [true, true, true],
+	  companion: [true, true, true]
+	},
+	current: {
+	  hero: [0, 0, 0],
+	  companion: [0, 0, 0]
+	},
+	defender: {
+	  hero: false,
+	  companion: false,
+	}
+  },
+  p2: {
+	target: {
+	  hero: [true, true, true],
+	  companion: [true, true, true]
+	},
+	current: {
+	  hero: [0, 0, 0],
+	  companion: [0, 0, 0]
+	},
+	defender: {
+	  hero: false,
+	  companion: false,
+	}
+  }
+}
+
+
 
 let generatedTumultOrder
 
@@ -94,38 +127,52 @@ function startGame() {
 
   const controlP1 = document.getElementById('p1-control')
   controlP1.addEventListener('reset', () => resetCounters('p1'))
+  controlP1.addEventListener('advance', processAdvancement)
   controlP1.addEventListener('advancehero', () => advanceHero('p1'))
   controlP1.addEventListener('advancecompanion', () => advanceCompanion('p1'))
   controlP1.addEventListener('backuphero', () => backupHero('p1'))
   controlP1.addEventListener('backupcompanion', () => backupCompanion('p1'))
+  controlP1.addEventListener('defenderhero', () => defenderHero('p1'))
+  controlP1.addEventListener('defendercompanion', () => defenderCompanion('p1'))
 
   const controlP2 = document.getElementById('p2-control')
   controlP2.addEventListener('reset', () => resetCounters('p2'))
+  controlP2.addEventListener('advance', processAdvancement)
   controlP2.addEventListener('advancehero', () => advanceHero('p2'))
   controlP2.addEventListener('advancecompanion', () => advanceCompanion('p2'))
   controlP2.addEventListener('backuphero', () => backupHero('p2'))
   controlP2.addEventListener('backupcompanion', () => backupCompanion('p2'))
+  controlP2.addEventListener('defenderhero', () => defenderHero('p2'))
+  controlP2.addEventListener('defendercompanion', () => defenderCompanion('p2'))
 
+  document.getElementById('p1-hero').addEventListener("change", (evt) => handleStatChange('p1', 'hero', evt.detail))
+  document.getElementById('p1-companion').addEventListener("change", (evt) => handleStatChange('p1', 'companion', evt.detail))
+  document.getElementById('p2-hero').addEventListener("change", (evt) => handleStatChange('p2', 'hero', evt.detail))
+  document.getElementById('p2-companion').addEventListener("change", (evt) => handleStatChange('p2', 'companion', evt.detail))
+  
   const tumult = document.getElementById('tumult')
 
   for (const card of getTumultOrder()) {
 	tumult.appendChild(getAdventureCard(card))
   }
 
-  expeditionMarkers[0].hero = createMarker('hero-lyra', 0, 1, 'hero')
-  expeditionMarkers[0].companion = createMarker('companion-lyra', 7, 1, 'companion')
-  expeditionMarkers[1].hero = createMarker('hero-muna', 0, 2, 'hero')
-  expeditionMarkers[1].companion = createMarker('companion-muna', 7, 2, 'companion')
+  expeditionMarkers['p1'].hero = createMarker('hero-lyra', 0, 'p1', 'hero')
+  expeditionMarkers['p1'].companion = createMarker('companion-lyra', 7, 'p1', 'companion')
+  expeditionMarkers['p2'].hero = createMarker('hero-muna', 0, 'p2', 'hero')
+  expeditionMarkers['p2'].companion = createMarker('companion-muna', 7, 'p2', 'companion')
 
   highlightStats()
+
+  
+  
 }
 
 function highlightStats() {
 
-  highlightStat(expeditionMarkers[0].hero, 'hero')
-  highlightStat(expeditionMarkers[1].hero, 'hero')
-  highlightStat(expeditionMarkers[0].companion, 'companion')
-  highlightStat(expeditionMarkers[1].companion, 'companion')
+  highlightStat(expeditionMarkers['p1'].hero, 'hero')
+  highlightStat(expeditionMarkers['p2'].hero, 'hero')
+  highlightStat(expeditionMarkers['p1'].companion, 'companion')
+  highlightStat(expeditionMarkers['p2'].companion, 'companion')
 
 }
 
@@ -156,16 +203,38 @@ function highlightStat(data) {
 	}
   }
 
-  const counter = document.getElementById(`p${data.player}-${data.expedition}`)
+  const target = [false, false, false]
+  for (const s of stat) {
+	switch (s) {
+	case 'f':
+	  target[0] = true
+	  break
+	case 'm':
+	  target[1] = true
+	  break
+	case 'w':
+	  target[2] = true
+	  break
+	}
+  }
+  currentStats[data.player].target[data.expedition] = target
+
+  const counter = document.getElementById(`${data.player}-${data.expedition}`)
   counter.setAttribute('stat-highlight', stat.join(','))
 }
 
 function handleOrientationChange() {
   setTimeout(() => {
-	if (expeditionMarkers[0].hero) setMarkerPosition(expeditionMarkers[0].hero.marker, expeditionMarkers[0].hero.pos, expeditionMarkers[0].hero.player)
-	if (expeditionMarkers[1].hero)setMarkerPosition(expeditionMarkers[1].hero.marker, expeditionMarkers[1].hero.pos, expeditionMarkers[1].hero.player)
-	if (expeditionMarkers[0].companion) setMarkerPosition(expeditionMarkers[0].companion.marker, expeditionMarkers[0].companion.pos, expeditionMarkers[0].companion.player)
-	if (expeditionMarkers[1].companion) setMarkerPosition(expeditionMarkers[1].companion.marker, expeditionMarkers[1].companion.pos, expeditionMarkers[1].companion.player)
+
+	processExpeditions((player, expedition) => {
+	  if (expeditionMarkers[player][expedition])
+		setMarkerPosition(
+		  expeditionMarkers[player][expedition].marker,
+		  expeditionMarkers[player][expedition].pos,
+		  expeditionMarkers[player][expedition].player
+		)
+	})
+	
   }, 100)
 }
 
@@ -184,7 +253,7 @@ function advanceMarker(data) {
   highlightStats()
 }
 
-function unadvanceMarker(data) {
+function backupMarker(data) {
   if (data.marker.getAttribute('name').includes('companion')) {
 	data.pos++
 	if (data.pos > 7) data.pos = 7
@@ -253,7 +322,7 @@ function setMarkerPosition(marker, pos, player) {
 	marker.style.left = `${left}px`
 	
 	let top = ((cardHeight/3)*2) - (size/2)
-	if (player == 2) {
+	if (player == 'p2') {
 	  top = ((cardHeight/3)) - (size/2)
 	}
 	marker.style.top = `${top}px`
@@ -307,15 +376,14 @@ function resetCounters(player) {
 }
 
 function advanceHero(player) {
-  console.log('advance hero', player)
   let data
 
   switch (player) {
   case 'p1':
-	data = expeditionMarkers[0].hero
+	data = expeditionMarkers['p1'].hero
 	break
   case 'p2':
-	data = expeditionMarkers[1].hero
+	data = expeditionMarkers['p2'].hero
 	break
   }
   advanceMarker(data)
@@ -326,28 +394,27 @@ function advanceCompanion(player) {
 
   switch (player) {
   case 'p1':
-	data = expeditionMarkers[0].companion
+	data = expeditionMarkers['p1'].companion
 	break
   case 'p2':
-	data = expeditionMarkers[1].companion
+	data = expeditionMarkers['p2'].companion
 	break
   }
   advanceMarker(data)
 }
 
 function backupHero(player) {
-  console.log('advance hero', player)
   let data
 
   switch (player) {
   case 'p1':
-	data = expeditionMarkers[0].hero
+	data = expeditionMarkers['p1'].hero
 	break
   case 'p2':
-	data = expeditionMarkers[1].hero
+	data = expeditionMarkers['p2'].hero
 	break
   }
-  unadvanceMarker(data)
+  backupMarker(data)
 }
 
 function backupCompanion(player) {
@@ -355,11 +422,64 @@ function backupCompanion(player) {
 
   switch (player) {
   case 'p1':
-	data = expeditionMarkers[0].companion
+	data = expeditionMarkers['p1'].companion
 	break
   case 'p2':
-	data = expeditionMarkers[1].companion
+	data = expeditionMarkers['p2'].companion
 	break
   }
-  unadvanceMarker(data)
+  backupMarker(data)
+}
+
+function defenderHero(player) {
+  currentStats[player].defender.hero = true
+}
+
+function defenderCompanion(player) {
+  currentStats[player].defender.companion = true
+}
+
+function handleStatChange(player, expedition, data) {
+  currentStats[player].current[expedition] = data.count
+}
+
+function processAdvancement() {
+  processExpeditions((player, expedition) => {
+	if (checkAdvancement(player, expedition)) {
+	  advanceMarker(expeditionMarkers[player][expedition])
+	}
+  })
+  document.getElementById('p1-control').setAttribute('reset', true)
+  document.getElementById('p2-control').setAttribute('reset', true)
+  resetCounters('p1')
+  resetCounters('p2')
+}
+
+
+function checkAdvancement(player, expedition) {
+  const otherPlayer = player == 'p1' ? 'p2' : 'p1'
+  
+  if (currentStats[player].defender[expedition]) {
+	return false
+  }
+  
+  const results = []
+  
+  for (let i = 0; i < currentStats[player].target[expedition].length; i++) {
+	const isTarget = currentStats[player].target[expedition][i]
+	if (!isTarget) continue
+
+	results.push(currentStats[player].current[expedition][i] > currentStats[otherPlayer].current[expedition][i])
+
+  }
+
+  return !results.every(v => !v)
+}
+
+function processExpeditions(f = (player, expedition) => {}) {
+  for (const player of ['p1', 'p2']) {
+	for (const expedition of ['hero', 'companion']) {
+	  f(player, expedition)
+	}
+  }
 }
