@@ -465,15 +465,24 @@ function handleStatChange(player, expedition, data) {
 }
 
 function processAdvancement() {
+  // check advancement and move markers if needed
   processExpeditions((player, expedition) => {
 	if (checkAdvancement(player, expedition)) {
 	  advanceMarker(expeditionMarkers[player][expedition])
 	}
   })
+  // reset controls
   document.getElementById('p1-control').setAttribute('reset', true)
   document.getElementById('p2-control').setAttribute('reset', true)
+  // reset defender status
+  currentStats.p1.defender.hero = false
+  currentStats.p1.defender.companion = false
+  currentStats.p2.defender.hero = false
+  currentStats.p2.defender.companion = false
+  // reset counts
   resetCounters('p1')
   resetCounters('p2')
+  // reset advancement previews
   removeAdvancementPreview()
 }
 
