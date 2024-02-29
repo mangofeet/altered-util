@@ -1,4 +1,4 @@
-const cacheVersion = 'v1.0.0'
+const cacheVersion = 'v1.1.0'
 
 const addResourcesToCache = async (resources) => {
   const cache = await caches.open(cacheVersion);
