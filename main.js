@@ -17,6 +17,11 @@ const expeditionMarkers = {
   p2: {hero: null, companion: null},
 }
 
+const factions = {
+  p1: 'muna',
+  p2: 'lyra',
+}
+
 const currentStats = {
   p1: {
 	target: {
@@ -120,6 +125,15 @@ const registerServiceWorker = async () => {
 
 registerServiceWorker()
 
+
+function setFaction(evt) {
+  const player = evt.target.getAttribute('data-player')
+  factions[player] = evt.target.value
+}
+for (const select of document.getElementsByClassName('select-faction')) {
+  select.onchange = setFaction
+}
+
 function startGame() {
   document.getElementById('setup').style.display = "none"
   document.getElementById('footer').style.display = "none"
@@ -156,10 +170,10 @@ function startGame() {
 	tumult.appendChild(getAdventureCard(card))
   }
 
-  expeditionMarkers['p1'].hero = createMarker('hero-lyra', 0, 'p1', 'hero')
-  expeditionMarkers['p1'].companion = createMarker('companion-lyra', 7, 'p1', 'companion')
-  expeditionMarkers['p2'].hero = createMarker('hero-muna', 0, 'p2', 'hero')
-  expeditionMarkers['p2'].companion = createMarker('companion-muna', 7, 'p2', 'companion')
+  expeditionMarkers.p1.hero = createMarker(`hero-${factions.p1}`, 0, 'p1', 'hero')
+  expeditionMarkers.p1.companion = createMarker(`companion-${factions.p1}`, 7, 'p1', 'companion')
+  expeditionMarkers.p2.hero = createMarker(`hero-${factions.p2}`, 0, 'p2', 'hero')
+  expeditionMarkers.p2.companion = createMarker(`companion-${factions.p2}`, 7, 'p2', 'companion')
 
   highlightStats()
 
@@ -506,4 +520,3 @@ function processExpeditions(f = (player, expedition) => {}) {
   }
 }
 
-startGame()
