@@ -272,6 +272,10 @@ function createMarker(name, pos, player, expedition) {
   setMarkerPosition(marker, pos, player)
   document.getElementById('tumult').appendChild(marker)
 
+  if (player == 'p2') {
+	marker.setAttribute('flipped', true)
+  }
+  
   const data = {marker, pos, player, expedition}
   marker.onclick = () => {
 	advanceMarker(data)
@@ -441,6 +445,7 @@ function defenderCompanion(player) {
 
 function handleStatChange(player, expedition, data) {
   currentStats[player].current[expedition] = data.count
+  previewAdvancement()
 }
 
 function processAdvancement() {
@@ -453,6 +458,23 @@ function processAdvancement() {
   document.getElementById('p2-control').setAttribute('reset', true)
   resetCounters('p1')
   resetCounters('p2')
+  removeAdvancementPreview()
+}
+
+function removeAdvancementPreview() {
+  processExpeditions((player, expedition) => {
+	expeditionMarkers[player][expedition].marker.removeAttribute('advancing')
+  })
+}
+
+function previewAdvancement() {
+  processExpeditions((player, expedition) => {
+	if (checkAdvancement(player, expedition)) {
+	  expeditionMarkers[player][expedition].marker.setAttribute('advancing', true)  
+	} else {
+	  expeditionMarkers[player][expedition].marker.removeAttribute('advancing')
+	}
+  })
 }
 
 
@@ -483,3 +505,5 @@ function processExpeditions(f = (player, expedition) => {}) {
 	}
   }
 }
+
+startGame()
