@@ -18,8 +18,8 @@ const expeditionMarkers = {
 }
 
 const factions = {
-  p1: 'muna',
-  p2: 'lyra',
+  p1: 'axiom',
+  p2: 'axiom',
 }
 
 const currentStats = {
@@ -450,11 +450,13 @@ function backupCompanion(player) {
 }
 
 function defenderHero(player) {
-  currentStats[player].defender.hero = true
+  currentStats[player].defender.hero = !currentStats[player].defender.hero
+  previewAdvancement()
 }
 
 function defenderCompanion(player) {
-  currentStats[player].defender.companion = true
+  currentStats[player].defender.companion = !currentStats[player].defender.companion
+  previewAdvancement()
 }
 
 function handleStatChange(player, expedition, data) {
