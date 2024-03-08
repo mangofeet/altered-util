@@ -24,6 +24,7 @@ class ExpeditionMarker extends HTMLElement {
 	this.img.style.width = '100%'
 	this.img.style.height = 'auto'
 	this.img.style.maxHeight = '500px'
+	this.img.style.borderRadius = '50%'
 	
 	this.forward = document.createElement('img')
 	this.forward.setAttribute('src', 'img/expedition-markers/arrow.png')
@@ -83,11 +84,48 @@ class ExpeditionMarker extends HTMLElement {
 	this.setForwardSide()
   }
 
+  getFaction() {
+	const name = this.getAttribute("name")
+	if (!name) return
+	const parts = name.split('-')
+	if (parts.length != 2) return
+	return parts[1]
+  }
+  
   handleAdvancing() {
 	let display = 'none'
+	let boxShadow = ''
+	let boxShadowColor = 'gold'
+
+	switch (this.getFaction()) {
+	case 'axiom':
+	  boxShadowColor = 'brown'
+	  break
+	case 'bravos':
+	  boxShadowColor = 'red'
+	  break
+	case 'lyra':
+	  boxShadowColor = 'pink'
+	  break
+	case 'muna':
+	  boxShadowColor = 'green'
+	  break
+	case 'ordis':
+	  boxShadowColor = 'blue'
+	  break
+	case 'yzmir':
+	  boxShadowColor = 'purple'
+	  break
+	default:
+	  boxShadowColor = 'gold'
+	}
+	
 	if (this.getAttribute('advancing')) {
 	  display = 'block'
+	  boxShadow = `0 0 10px 5px ${boxShadowColor}`
 	}
+
+	this.img.style.boxShadow = boxShadow
 	
 	this.forward.style.display = display
 

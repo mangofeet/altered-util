@@ -33,9 +33,9 @@ class Counter extends HTMLElement {
 	this.counters.mountain = makeCounterValue('mountain', this.counts.forest)
 	this.counters.water = makeCounterValue('water', this.counts.forest)
 	
-	this.containers.forest = makeContainer('forest', '#94ad5a', this.counters.forest)
-	this.containers.mountain = makeContainer('mountain', '#ad7b52', this.counters.mountain)
-	this.containers.water = makeContainer('water', '#5a73a5', this.counters.water)
+	this.containers.forest = makeContainer('forest', '#546d1a', this.counters.forest)
+	this.containers.mountain = makeContainer('mountain', '#8d5b32', this.counters.mountain)
+	this.containers.water = makeContainer('water', '#3a6385', this.counters.water)
 
 	const container = document.createElement('div')
 	container.style.display = 'flex'
@@ -138,7 +138,7 @@ class Counter extends HTMLElement {
 }
 
 function highlightContainer(node) {
-  node.style.border = '3px solid gold'
+  // node.style.border = '3px solid gold'
   node.style.color = '#dcdccc'
   for (const child of node.children) {
 	if (child.id == 'top-overlay') {
@@ -150,7 +150,7 @@ function highlightContainer(node) {
 }
 
 function unhighlightContainer(node) {
-  node.style.border = '3px solid grey'
+  // node.style.border = '3px solid grey'
   node.style.color = '#dcdccc'
   for (const child of node.children) {
 	if (child.id == 'top-overlay') {
@@ -169,7 +169,7 @@ function makeCounterValue(label, value) {
   val.style.top = '40%'
   val.style.left = '0'
   val.style.textAlign = 'center'
-  val.style.fontSize = '3em'
+  val.style.fontSize = '2.7em'
   val.id = `counter-${label}`
   
   return val

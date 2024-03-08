@@ -123,13 +123,14 @@ class Control extends HTMLElement {
 
   makeButton(label, event, onclick = ()=>{}) {
 	const btn = document.createElement('div')
-	btn.style.border = '1px solid black'
+	btn.style.border = '1px solid #dcdccc'
 	btn.style.textAlign = 'center'
 	btn.style.display = 'flex'
 	btn.style.flexDirection = 'column'
 	btn.style.justifyContent = 'center'
 	btn.style.flex = '1'
 	btn.style.cursor = 'pointer'
+	btn.style.color = '#dcdccc'
 	btn.onclick = (evt) => {
 	  this.dispatchEvent(new CustomEvent(event, {
 		bubbles: true,
@@ -166,10 +167,12 @@ function buttonIsOn(btn) {
 
 function buttonOn(btn) {
   btn.style.backgroundColor = "gold"
+  btn.style.color = "black"
 }
 
 function buttonOff(btn) {
   btn.style.backgroundColor = ""
+  btn.style.color = "#dcdccc"
 }
 
 function buttonToggle(btn) {
